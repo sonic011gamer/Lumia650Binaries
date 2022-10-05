@@ -1,0 +1,138 @@
+[Config]
+Version = 3
+MaxMemoryRegions = 64
+
+[MemoryMap]
+#                                                    EFI_RESOURCE_ EFI_RESOURCE_ATTRIBUTE_        ARM_REGION_ATTRIBUTE_
+#MemBase,   MemSize,   MemLabel(32 Char.), BuildHob, ResourceType, ResourceAttribute, MemoryType, CacheAttributes
+
+#------------- DDR Regions ------
+0x80000000, 0x00010000, "HLOS 0",           AddMem, SYS_MEM, SYS_MEM_CAP, Conv,   WRITE_BACK
+0x80010000, 0x00014000, "DBI Dump",         NoHob,  MMAP_IO, INITIALIZED, Conv,   NS_DEVICE
+0x80024000, 0x001DC000, "HLOS 1",           AddMem, SYS_MEM, SYS_MEM_CAP, Conv,   WRITE_BACK
+0x80200000, 0x00100000, "UEFI FD",          AddMem, SYS_MEM, SYS_MEM_CAP, BsCode, WRITE_BACK
+0x80300000, 0x00040000, "MPPark Code",      AddMem, MEM_RES, UNCACHEABLE, RtCode, UNCACHED_UNBUFFERED
+0x80340000, 0x00040000, "HLOS 2",           AddMem, SYS_MEM, SYS_MEM_CAP, BsData, UNCACHED_UNBUFFERED
+0x80380000, 0x00001000, "FBPT Payload",     AddMem, SYS_MEM, SYS_MEM_CAP, RtData, UNCACHED_UNBUFFERED
+0x80381000, 0x00004000, "DBG2",             AddMem, SYS_MEM, SYS_MEM_CAP, LdData, UNCACHED_UNBUFFERED
+0x80385000, 0x00001000, "Capsule Header",   AddMem, SYS_MEM, SYS_MEM_CAP, RtData, UNCACHED_UNBUFFERED
+0x80386000, 0x00003000, "TPM Control Area", AddMem, SYS_MEM, SYS_MEM_CAP, RtData, UNCACHED_UNBUFFERED
+0x80389000, 0x00001000, "UEFI Info Block",  AddMem, SYS_MEM, SYS_MEM_CAP, RtData, UNCACHED_UNBUFFERED
+0x8038A000, 0x00004000, "Reset Data",       AddMem, SYS_MEM, SYS_MEM_CAP, RtData, UNCACHED_UNBUFFERED
+0x8038E000, 0x00072000, "Reser. Uncached0", AddMem, SYS_MEM, SYS_MEM_CAP, BsData, UNCACHED_UNBUFFERED
+0x80400000, 0x00800000, "Display Reserved", AddMem, MEM_RES, WRITE_THROUGH, MaxMem, WRITE_THROUGH
+0x80C00000, 0x00040000, "UEFI Stack",       AddMem, SYS_MEM, SYS_MEM_CAP, BsData, WRITE_BACK
+0x80C40000, 0x00010000, "CPU Vectors",      AddMem, SYS_MEM, SYS_MEM_CAP, BsCode, WRITE_BACK
+0x80C50000, 0x000B0000, "Reser. Cached 0",  AddMem, SYS_MEM, SYS_MEM_CAP, BsData, WRITE_BACK
+0x80D00000, 0x03300000, "HLOS 3",           AddMem, SYS_MEM, SYS_MEM_CAP, BsData, WRITE_BACK
+0x84000000, 0x03900000, "HLOS 4",           AddMem, SYS_MEM, SYS_MEM_CAP, Conv,   WRITE_BACK
+0x87900000, 0x00300000, "TZ Apps",          AddMem, SYS_MEM, SYS_MEM_CAP, Reserv, NS_DEVICE
+0x87C00000, 0x000E0000, "MPSS_EFS / SBL",   AddMem, SYS_MEM, SYS_MEM_CAP, Reserv, NS_DEVICE
+0x87CE0000, 0x00020000, "ADSP_EFS",         AddMem, SYS_MEM, SYS_MEM_CAP, Reserv, NS_DEVICE
+0x87D00000, 0x00100000, "SMEM",             AddMem, MEM_RES, UNCACHEABLE, Reserv, UNCACHED_UNBUFFERED
+0x87E00000, 0x00080000, "HLOS 5",           AddMem, SYS_MEM, SYS_MEM_CAP, Conv,   WRITE_BACK
+0x87E80000, 0x00180000, "TZ QSEE",          AddMem, SYS_MEM, SYS_MEM_CAP, Reserv, NS_DEVICE
+0x88000000, 0x06F00000, "PIL_REGION",       AddMem, SYS_MEM, SYS_MEM_CAP, Reserv, NS_DEVICE
+0x8EF00000, 0x01100000, "HLOS 6",           AddMem, SYS_MEM, SYS_MEM_CAP, Conv,   WRITE_BACK
+0x90000000, 0xFFFFFFFFFFFFFFFF, "HLOS 7",   AddMem, SYS_MEM, SYS_MEM_CAP, Conv,   WRITE_BACK
+#------------- Other Memory Regions ------
+0x08600000, 0x00004000, "IMEM Boot Base",   NoHob,  SYS_MEM, INITIALIZED, Conv,   NS_DEVICE
+0x08600000, 0x00001000, "IMEM Cookie Base", AddDev, MMAP_IO, INITIALIZED, Conv,   NS_DEVICE
+#------------- Register Regions ----------
+0x00001000, 0x00070000, "REG 1",           AddDev, MMAP_IO,  UNCACHEABLE, MmIO,   NS_DEVICE
+0x00300000, 0x00200000, "REG 2",           AddDev, MMAP_IO,  UNCACHEABLE, MmIO,   NS_DEVICE
+0x00700000, 0x00D00000, "REG 3",           AddDev, MMAP_IO,  UNCACHEABLE, MmIO,   NS_DEVICE
+0x01400000, 0x00C00000, "REG 4",           AddDev, MMAP_IO,  UNCACHEABLE, MmIO,   NS_DEVICE
+0x02000000, 0x01C00000, "REG 5",           AddDev, MMAP_IO,  UNCACHEABLE, MmIO,   NS_DEVICE
+0x07800000, 0x00100000, "REG 6",           AddDev, MMAP_IO,  UNCACHEABLE, MmIO,   NS_DEVICE
+0x0B000000, 0x00800000, "REG 7",           AddDev, MMAP_IO,  UNCACHEABLE, MmIO,   NS_DEVICE
+0x0C428000, 0x00008000, "REG 8",           AddDev, MMAP_IO,  UNCACHEABLE, MmIO,   NS_DEVICE
+
+[ConfigParameters]
+# Update count if more than default 30 entries #
+ConfigParameterCount = 64
+
+## UEFI CORE ##
+PlatConfigFileName = "uefiplatWP.cfg"
+OsTypeString = "WP"
+SerialPortBufferSize = 0x8000
+ChipID_RegAddr = 0x01110010
+
+# Force booting to shell whilst in pre-silicon phase
+EnableShell = 0x1
+
+## Get TZ and TZ App logs ##
+EnableDebugLogDump = 0x0
+# Enable dumping logs to LogFS
+DumpToLogFS = 0x0
+# TZ Diag address from TZ build and size of the buffer to be dumped
+TZDebugAddr = 0x0
+TZDebugSize = 0x1000
+
+## Shared IMEM (Cookies, Offsets) 
+SharedIMEMBaseAddr    = 0x08600000
+MassStorageCookieAddr = 0x0193D100
+MassStorageCookieOffset = 0x0
+# Size of cookie is marked as 0 as it uses the newer SCM call 
+MassStorageCookieSize = 0x0
+MemoryCaptureModeOffset = 0x18
+AbnormalResetOccurredOffset = 0x20
+EDLCookieAddr = 0x0193D100
+
+## MPPark ##
+NumCpus = 4
+
+## ULogFile ##
+SpecialLogPartition = "LOGFS:\"
+MaxLogFileSize = 0x800000
+
+## USB ##
+# UsbPort0Config = 0 for device mode.  UsbPort0Config = 1 for host mode.  Default to device mode
+UsbPort0Config =0 
+UsbFnIoRevNum = 0x00010001
+
+## Buttons / KeyPad ##
+PwrBtnShutdownFlag = 0x0
+
+## SDCC ##
+Sdc1GpioConfigOn = 0x1FE4
+Sdc2GpioConfigOn = 0x1FE4
+Sdc1GpioConfigOff = 0xA00
+Sdc2GpioConfigOff = 0xA00
+## SDCC eMMC speed mode- DDR50: 0, HS200: 1, HS400: 2 ##
+SdccEMMCSpeedMode = 0x1
+## SDHC Mode 0:Legacy Mode, Non-zero: SDHC Mode ##
+EnableSDHCSwitch = 0x1
+## RPMB Half Sector Granularity (for one RPMB transfer) ##
+RpmbHalfSectorGranularity = 2
+
+## Reset ##
+PSHoldOffset = 0xB000
+PSHoldSHFT = 0x0
+
+## Reset Reason ##
+GCCResetValueAddress = 0x08600024  # SharedIMEMBaseAddr +  0x24
+
+## SecBootKeys Flag ##
+SecBootKeysRootType = 1
+# config value used by securitytoggleapp for fetching secboot keys
+# SecBootKeysRootType = 1 for WP target
+# SecBootKeysRootType = 2 for WA target
+
+## Security flag ##
+SecurityFlag = 0x7F 
+# SecBootEnableFlag = 0x1 		i.e. 0b00000001
+# TreeTpmEnableFlag = 0x2 		i.e. 0b00000010
+# CommonMbnLoadFlag = 0x4 		i.e. 0b00000100
+# DxHdcp2LoadFlag = 0x8 		i.e. 0b00001000
+# VariableServicesFlag = 0x10 	i.e. 0b00010000
+# WinsecappFlag = 0x20 			i.e. 0b00100000
+# BdsSecLibFlag = 0x40 			i.e. 0b01000000
+# ChipID Value Map found in ChipInfoDxe\DalChipInfoLocal.c
+[ChipIDConfig]
+# More configurations can be added, if required
+# ChipID, ConfigKey, ConfigValue
+0x0962,   NumCpus,   2
+
+## NOTE: Do not remove last newline, required by parser ##
+

@@ -1,0 +1,244 @@
+#
+# Set default PMIC Battery and Charging settings
+#
+[PMIC Battery]
+
+#
+#   Versions:
+#      1 : Added CFG file to support battery and charging settings for 8909
+#      2 : Added SW Jeita Feature
+#      3 : Added MinSocThreshold, SupportQcomChargingApp and MaxChargeCurrent for SDP,CDP, DCP
+#      4 : Added Charger watchDog parameters.
+#      5 : Removed the second dummy battery parameters.
+#      6 : Battery emulator support added
+#      7 : added parameter for other charger current
+#      8 : Added UEFI File logging parameter
+#      9 : Added SMB1360 Configuration parameters.
+#     10 : Jeita Individual Parameter Changes 
+#     11: Added parameters for Maintenance charging
+#     12 : Replaced MinSocThreshold with OsStandardBootSocThreshold and OsNonStandardBootSocThreshold
+#     13 : Added EmergencyShutdownVbatt
+#     15 : Adding NoChargeAndWait and removing cool off period
+#     16 : Added SocTolerancePerMinute
+#
+CfgVersion = 14
+
+# Configure Battery Voltage and Current limit 
+WPBattVoltLimHighInmV = 4200
+QrdBattVoltLimHighInmV = 4350
+/* %&# MMO_start: REASON_Battery configuration change. OWNER_juha-pekka.toivainen@microsoft.com_EM*/
+/* Work around to higher limit until we get fix. */
+WPBattCurrLimHighInmA = 20000
+/* %&# MMO_end */
+
+/* %&# MMO_start: REASON_Battery configuration change. OWNER_juha-pekka.toivainen@microsoft.com_EM*/
+# Default Rbatt Nominal values for WP (Fluid) and WA (Liquid)
+BattRbattNomWP = 134
+/* %&# MMO_end */
+/* %&# MMO_start: REASON_Battery configuration change. OWNER_juha-pekka.toivainen@microsoft.com_EM*/
+# Configure VddSafe and IbatSafe values for PMIC LBC
+# Set to 0 to configure through API
+ChgVddSafeInmV = 4250
+/* %&# MMO_end */
+ChgQrdVddSafeInmV = 4450
+/* %&# MMO_start: REASON_Battery configuration change. OWNER_juha-pekka.toivainen@microsoft.com_EM*/
+LbcChgIchgSafeInmA = 1080
+/* %&# MMO_end */
+
+# Configure VddMax and IbatMax values
+# Set to 0 to configure through API
+/* %&# MMO_start: REASON_Battery configuration change. OWNER_juha-pekka.toivainen@microsoft.com_EM*/
+ChgVddMaxInmV = 4250
+/* %&# MMO_end */
+ChgQrdVddMaxInmV = 4350
+/* %&# MMO_start: REASON_Battery configuration change. OWNER_juha-pekka.toivainen@microsoft.com_EM*/
+LbcChgIchgMaxInmA = 1080
+/* %&# MMO_end */
+
+# Support reading battery profile from battery provision file in EFIESP Partition
+ReadBattProfileFromPartition = TRUE
+
+# Enable Battery Gauging
+# Set to 0 to use VBatt to determine Battery State of Charge
+BatteryGauge = 1
+
+/* %&# MMO_start: REASON_Battery configuration change. OWNER_juha-pekka.toivainen@microsoft.com_EM*/
+# Print DEBUG Messages
+PrintDebugMsg = TRUE
+/* %&# MMO_end */
+
+#Print Charger DEBUG Messages to ULOG File..Default is true
+PrintChargerAppDbgMsgToFile = TRUE
+
+/* %&# MMO_start: REASON_Battery configuration change. OWNER_juha-pekka.toivainen@microsoft.com_EM*/
+# Estimated OCV to use in case of faulty OCV reading from HW
+# Value in mV
+EstimatedOcv = 3300
+/* %&# MMO_end */
+
+#Time within which the battery is expected to settle
+#Value in minutes
+BatterySettledTime = 30
+
+#This Flag decides to first check EFIESP or PLAT partition to Read Battery Provision file
+#For 8x16 Provision File would be located in PLAT Partition
+# TRUE = EFI Partition, FALSE = PLAT Partition
+ChkBattProfileFirstFromEfiEspOrPlat = TRUE
+
+/* %&# MMO_start: REASON_Battery configuration change. OWNER_juha-pekka.toivainen@microsoft.com_EM*/
+# Termination current, below which charging will stop.
+ChargingTermCurrent = 150
+/* %&# MMO_end */
+
+# Battery Emulator configuration parameters
+BatteryEmulatorBatIdMin = 1500
+BattEmulatorConnected = TRUE
+
+#SW jeita enable/disable
+#if HW jeita is disabled Software would apply SW based JEITA and pick up SW temperature limits
+SWJeitaEnable = TRUE # by default this to be disabled
+
+/* %&# MMO_start: REASON_Battery configuration change. OWNER_juha-pekka.toivainen@microsoft.com_EM*/
+#if SWJeitaEnable = TRUE then below values are picked up for SW JEITA
+# Configure limits for Battery Temperature (For negative values, use negative sign. Ex: -30)
+BattTempLimLow = -35
+BattTempLimLowCharging = 5
+BattTempJeitaT1Limit =  5
+BattTempJeitaT2Limit = 15
+BattTempJeitaT3Limit = 43
+BattTempJeitaT4Limit = 48
+BattTempJeitaT5Limit = 56
+# Battery Temperature Hysteresis % limit for Jeita zones
+BattTempHysteresis   = 2
+#Default setting High Temperature Limit 45, but Jeita Compliant is upto 60
+#Temperature above 45 and upto 60; SOC and Charge current depends on battery specifications
+#Setting this value to 45, overrides Jeita high temperature limit above 45
+#Change this
+BattTempLimHigh = 70
+/* %&# MMO_end */
+
+# Configure VDD Max in mV and IChg Max in mA values
+# Set to 0 to configure through API
+/* %&# MMO_start: REASON_Battery configuration change. OWNER_juha-pekka.toivainen@microsoft.com_EM*/
+ChgVddMaxInJeitaT2Limit  = 4100
+ChgVddMaxInJeitaT3Limit  = 4200
+ChgVddMaxInJeitaT4Limit  = 4200
+ChgVddMaxInJeitaT5Limit  = 4100
+ChgIchgMaxInJeitaT2Limit = 900
+ChgIchgMaxInJeitaT3Limit = 1080
+ChgIchgMaxInJeitaT4Limit = 1080
+ChgIchgMaxInJeitaT5Limit = 1080
+/* %&# MMO_end */
+
+# conservative FV Max mV and FCC Max mA values for safety charging 
+ConservChgFvMaxInJeitaT2Limit  = 4150
+ConservChgFvMaxInJeitaT3Limit  = 4047
+ConservChgFvMaxInJeitaT4Limit  = 4047
+ConservChgFvMaxInJeitaT5Limit  = 3996
+ConservChgFvMax  = 4150
+
+ConservChgFccMaxInJeitaT2Limit = 500
+ConservChgFccMaxInJeitaT3Limit = 500
+ConservChgFccMaxInJeitaT4Limit = 500
+ConservChgFccMaxInJeitaT5Limit = 500
+
+/* %&# MMO_start: REASON_Battery configuration change. OWNER_juha-pekka.toivainen@microsoft.com_EM*/
+#Minimum SOC Threshold before allowing to boot to HLOS in case of Standard OS boot
+OsStandardBootSocThreshold = 6
+/* %&# MMO_end */
+
+#Minimum SOC Threshold before allowing to boot to HLOS in case of Non-Standard OS boot
+OsNonStandardBootSocThreshold = 13
+#Support QCOM charging application
+/* %&# MMO_start: REASON_Battery configuration change. OWNER_juha-pekka.toivainen@microsoft.com_EM*/
+SupportQcomChargingApp = TRUE
+/* %&# MMO_end */
+
+#Enable full battery charging
+FullBattChargingEnabled = FALSE
+
+#Maximum charge current allowed for SDP port
+SDPMaxChargeCurrent = 500
+
+/* %&# MMO_start: REASON_Battery configuration change. OWNER_juha-pekka.toivainen@microsoft.com_EM*/
+#Maximum charge current allowed for CDP port
+CDPMaxChargeCurrent = 1080
+
+#Maximum charge current allowed for DCP port
+DCPMaxChargeCurrent = 1080
+/* %&# MMO_end */
+
+#Maximum charge current allowed for unknow charger and unknown battery type
+OtherChargerChargeCurrent = 1080
+
+/* %&# MMO_start: REASON_Battery configuration change. OWNER_juha-pekka.toivainen@microsoft.com_EM*/
+#Support unknown battery charging behavior 
+# 0: Shuts down device,    1: Boot to HLOS if battery more than threshold else shutdown
+# 2: Conservative Charging 3: Regular charging
+UnknownBattBehavior = 3
+/* %&# MMO_end */
+
+#Boot device to HLOS in case of unsupported battery or battery emulator. In millivolt*/
+BootToHLOSThresholdMv = 3200 
+
+#device behaviour if temp is outside BattTempJeitaT5Limit and BattTempLimLowCharging range
+# 1= Disable charging and wait. 0 = Shutdown device is temp outside
+NoChargeAndWait =  TRUE
+
+
+#Dummy Battery ID range (MAX/MIN) 
+DummyBattIdMax = 200
+DummyBattIdMin = 0
+
+#Debug board ID range
+DebugBoardBattIdMin = 0
+DebugBoardBattIdMax = 200
+
+#Battery ID Tolerance Percentage 15%
+BatteryIdTolerance = 15
+
+/* %&# MMO_start: REASON_Battery configuration change. OWNER_juha-pekka.toivainen@microsoft.com_EM*/
+#Charger WatchDog Configuration parameters
+ChargerWatchDogEnable = TRUE
+/* %&# MMO_end */
+# WatchDog time in Seconds (Valid Wdog time range: 72 to 127)
+ChargerWatchDogTime = 72
+
+# Configure External SMB HW Configuration parameters
+SmbExtHwActualFcc = 1500
+
+# Vcutoff -> minimm voltage at which soc becomes 0.
+SmbExtHwVcutoff = 3400 
+
+# Vfloat -> Battery float voltage.
+SmbExtHwVfloat = 4200
+
+#SysIterm -> system termination current
+SmbExtHwSysIterm = 100
+
+#FgIterm -> Fuel gauge termination current
+SmbExtHwFgIterm = 100
+
+# cc to soc coefficient for MTP: 37178 (0x913A , Refer SMB1360 SW Configurable Registers doc for input values.
+SmbExtHwSoctoCC = 37178
+
+# Thermistor c1 coefficient: 34523 (=0x86DB), Refer SMB1360 SW Configurable Registers doc for input values.
+SmbExtHwThermCoeff = 34523
+
+#Maintenance Charging target voltage delta (mV below normal target). Adjustable steps 0, 50 and 100 mV. Default 0mV.
+Maintain_mV = 100
+
+#Voltage drop during maintenance charging re-triggering the maintenance cycle. Default 100 mV, Steps 50, 100. 150 and 200 mV.
+Recharge_mV = 0
+
+#Lowest battery voltage at which device should shutdown gracefully
+#value in mV
+EmergencyShutdownVbatt = 3300
+
+#SOC increase allowed per minute
+SocTolerancePerMinute = 3
+
+#
+#  End of config
+#   Blank line needed after the last config
+#
